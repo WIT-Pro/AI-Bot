@@ -91,6 +91,12 @@ namespace AI_Bot.Modules
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                var builder = new EmbedBuilder()
+                {
+                    Color = Color.Red,
+                    Description = "The role that you have requested is not available.  This is case sensitive and if a role contains spaces please use quotes around the role."
+                };
+                await ReplyAsync("", false, builder.Build());
             }
         }
 
