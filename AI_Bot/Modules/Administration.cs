@@ -76,17 +76,6 @@ namespace AI_Bot.Modules
         {
             try
             {
-                string filePath = @"c:\AIBot\roleList.txt";
-                if (File.Exists(filePath))
-                {
-                    Console.WriteLine("Opening List...");
-                    var contents = File.ReadAllLines(filePath);
-                    var conList = new List<string>(contents);
-                    
-                    foreach (string value in conList.FindAll(element => element.Equals(inputRole)))
-                    {
-                        Console.WriteLine(value.ToString());
-                    }
                         var user = Context.User;
                         var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == inputRole);
 
@@ -98,37 +87,12 @@ namespace AI_Bot.Modules
                         };
                         await ReplyAsync("", false, builder.Build());
                         Console.WriteLine(user + " has requested the role " + role.ToString() + "Your requested role has been added.");
-                }
-                else
-                {
-                    await ReplyAsync("No roles have been setup for this server.");
-                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
         }
-
-        [Command("member")]
-        [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task addMember(string inputRole)
-        {
-            try
-            {
-                var user = Context.User;
-                var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == inputRole);
-                var findRole = Context.Guild.Roles.First(x => x.Name == "Discord Admin");
-                await (user as IGuildUser).AddRoleAsync(role);
-                await ReplyAsync("Your requested role has been added.");
-                Console.WriteLine(user + " has requested the role " + role.ToString() + "Your requested role has been added.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-
 
 
     }
