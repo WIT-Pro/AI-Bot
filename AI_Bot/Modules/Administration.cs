@@ -71,6 +71,7 @@ namespace AI_Bot.Modules
             }
         }
 
+        [RoleValidation("Member")]
         [Command("iam")]
         public async Task iAm(string inputRole)
         {
@@ -86,7 +87,7 @@ namespace AI_Bot.Modules
                             Description = "Your requested role has been added."
                         };
                         await ReplyAsync("", false, builder.Build());
-                        Console.WriteLine(user + " has requested the role " + role.ToString() + "Your requested role has been added.");
+                        Console.WriteLine(user + " has requested the role " + role.ToString() + ". Your requested role has been added.");
             }
             catch (Exception e)
             {
@@ -100,6 +101,22 @@ namespace AI_Bot.Modules
             }
         }
 
+        [Command("accept")]
+        public async Task acceptRules()
+        {
+            var user = Context.User;
+            var role = Context.Guild.Roles.FirstOrDefault(x => x.Name == "Member");
+            await (user as IGuildUser).AddRoleAsync(role);
+            Console.WriteLine(Context.User.ToString() + " has accepted the rules of discord.");
 
+            var builder = new EmbedBuilder()
+            {
+                Color = Color.Green,
+                Description = "Thank you for accepting the rules.  The member role has been added to your user.  You are now able to use the !iam command to assign additional roles to your" +
+                " user.  This will allow you access to additional areas within the channel."
+            };
+            await ReplyAsync("", false, builder.Build());
+
+        }
     }
 }
